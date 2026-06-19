@@ -1,0 +1,33 @@
+# Runs the rachette audit (and tests) on every push and pull request.
+# If anyone adds a database column without classifying it, the audit goes red and
+# the merge is blocked until they label the field. Nobody has to remember — and
+# because `audit` takes no table argument, new tables are picked up automatically.
+name: rachette
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  classify-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # In a real project, replace this with your migrations against a test DB.
+      # Here we seed the demo database so the schema exists to inspect.
+      - name: Prepare database
+        run: node seed.js
+
+      # The audit. Exits non-zero on any UNCLASSIFIED (or unclassified-because-
+      # missing) field, which fails the whole check. No table list to maintain —
+      # it audits every table found in the DB and in policies/.
+      - name: Audit field classifications
+        run: node cli.js audit
+
+      - name: Tests
+        run: node --test

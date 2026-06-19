@@ -1,0 +1,4 @@
+# generated at runtime
+app.db
+*.log
+node_modules/

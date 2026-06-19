@@ -1,0 +1,17 @@
+{
+  "name": "rachette",
+  "version": "0.1.0",
+  "description": "A database field can't reach a response, a cache, or a log unless a human has classified it. New columns fail the build until labeled.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "demo": "./run.sh",
+    "seed": "node seed.js",
+    "generate": "node cli.js generate users",
+    "audit": "node cli.js audit",
+    "test": "node --test"
+  },
+  "keywords": ["security", "privacy", "pii", "data-classification", "access-control"]
+}
